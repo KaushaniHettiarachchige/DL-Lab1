@@ -45,3 +45,31 @@ ax.set_zlabel("z")
 plt.show()
 
 4.
+from scipy.stats import spearmanr, pearsonr
+df = sns.load_dataset('iris').dropna()
+features = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
+data = df[features]
+
+pearson_corr = data.corr(method='pearson')
+spearman_corr, _ = spearmanr(data)
+spearman_corr = pd.DataFrame(spearman_corr, index=features, columns=features)
+
+print("Pearson Correlation Matrix:")
+display(pearson_corr)
+
+print("\nSpearman Rank Correlation Matrix:")
+display(spearman_corr)
+
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+sns.heatmap(pearson_corr, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title("Pearson Correlation Coefficient")
+
+plt.subplot(1, 2, 2)
+sns.heatmap(spearman_corr, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title("Spearman Rank Correlation")
+
+plt.tight_layout()
+plt.show()
+
